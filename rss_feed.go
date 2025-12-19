@@ -62,3 +62,11 @@ func fetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 
 	return &rssFeed, nil
 }
+
+func addFeed(name, url string) (RSSFeed, error) {
+	feed, err := fetchFeed(context.Background(), url)
+	if err != nil {
+		return RSSFeed{}, err
+	}	
+	return *feed, nil
+}
