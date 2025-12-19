@@ -9,6 +9,23 @@ import (
 	"github.com/google/uuid"
 )
 
+func handlerGetUsers(s *state, cmd command) error {
+	users, err := s.db.GetUsers(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't get users: %w", err)
+	}
+
+	fmt.Println("Registered users:")
+	for _, user := range users {
+		fmt.Printf("* %v", user.Name)
+		if s.cfg.CurrentUserName == user.Name {
+			fmt.Printf(" (current)")
+		}
+		fmt.Println()
+	}
+	return nil
+}
+
 func handlerReset(s *state, cmd command) error {
 	err := s.db.DeleteAllUsers(context.Background())
 	if err != nil {
