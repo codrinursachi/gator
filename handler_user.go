@@ -9,6 +9,16 @@ import (
 	"github.com/google/uuid"
 )
 
+func handlerReset(s *state, cmd command) error {
+	err := s.db.DeleteAllUsers(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't delete users: %w", err)
+	}
+
+	fmt.Println("All users have been deleted.")
+	return nil
+}
+
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %v <name>", cmd.Name)
